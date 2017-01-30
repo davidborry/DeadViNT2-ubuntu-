@@ -1,5 +1,6 @@
 #include <iostream>
 #include "../headers/World.h"
+#include "../headers/entities/Spawner.hpp"
 
 namespace std
 {
@@ -71,6 +72,7 @@ void World::loadTextures(){
 	mTextures.load(Resources::Textures::Solid, "Resources/img/solid/wall.png");
 	mTextures.load(Resources::Textures::Zombie, "Resources/img/Zombie.png");
 	mTextures.load(Resources::Textures::Fence, "Resources/img/Fence.png");
+	mTextures.load(Resources::Textures::Spawner, "Resources/img/Spawner.png");
 
 }
 
@@ -290,14 +292,26 @@ void World::testSolids(){
 
 void World::testZombies(){
 
-    for(int i=0; i < 100; i++){
-	    spawnZombie(31+i, 15);
-	    spawnZombie(38, 7+i);
-    }
+
+	   spawnZombie(32, 15);
+		addSpawner(32,15);
+
+	addSpawner(38,7);
+	spawnZombie(38, 7);
+
 
 
 	
 	//spawnZombie(3, 1);
+
+}
+
+void World::addSpawner(int x, int y) {
+
+
+	std::unique_ptr<Spawner> spawner(new Spawner(mTextures));
+	spawner->setPosition(100 * x, 100 * y);
+	mSceneLayers[UpperAir]->attachChild(std::move(spawner));
 
 }
 

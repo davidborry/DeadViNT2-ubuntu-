@@ -55,6 +55,7 @@ private:
 	void testCollisions();
 	void testSolids();
 	void testZombies();
+	void addSpawner(int x, int y);
 	void spawnZombie(int x, int y);
 
 	void updatePlayerGridPosition();

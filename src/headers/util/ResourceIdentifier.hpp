@@ -26,6 +26,7 @@ namespace Resources{
 			Projectiles,
 			Solid,
 			Fence,
+			Spawner,
 		};
 
 	}
