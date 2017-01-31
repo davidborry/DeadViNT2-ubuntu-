@@ -3,7 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include "../scene/SceneNode.hpp"
-#include "../util//ResourceHolder.hpp"
+#include "../util/ResourceHolder.hpp"
 #include "../util/ResourceIdentifier.hpp"
 
 class Entity : public SceneNode{

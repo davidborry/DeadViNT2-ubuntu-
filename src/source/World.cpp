@@ -2,34 +2,6 @@
 #include "../headers/World.h"
 #include "../headers/entities/Spawner.hpp"
 
-namespace std
-{
-	//namespace tr1
-	//{
-	// Specializations for unordered containers
-
-	template <>
-	struct hash<PathFindingGrid::Position> : public unary_function<PathFindingGrid::Position, size_t>
-	{
-		size_t operator()(const PathFindingGrid::Position& value) const
-		{
-			return 0;
-		}
-	};
-
-	//} // namespace tr1
-
-	template <>
-	struct equal_to<PathFindingGrid::Position> : public unary_function<PathFindingGrid::Position, bool>
-	{
-		bool operator()(const PathFindingGrid::Position& x, const PathFindingGrid::Position& y) const
-		{
-			return x.x==y.x && x.y == y.y;
-		}
-	};
-
-}
-
 World::World(sf::RenderTarget& outputTarget, FontHolder& fonts, SoundPlayer& sounds) :
 mTarget(outputTarget),
 mFonts(fonts),
@@ -44,21 +16,16 @@ mCollisionCell(),
 mCollisionGrid(10000,10000,1000,1000),
 mPathfindingGrid(100,100)
 {
-
     mSceneTexture.create(outputTarget.getSize().x, outputTarget.getSize().y);
 
 	loadTextures();
 	buildScene();
-
-	mPlayerGridPosition.x = mPlayerHuman->getWorldPosition().x / 100;
-	mPlayerGridPosition.y = mPlayerHuman->getWorldPosition().y / 100;
 
 	//testCollisions();
 	testSolids();
 	testZombies();
 	mWorldView.setCenter(mSpawnPosition);
 
-	
 }
 
 void World::loadTextures(){
@@ -107,6 +74,10 @@ void World::buildScene(){
 	std::unique_ptr<SoundNode> soundNode(new SoundNode(mSounds));
 	mSceneGraph.attachChild(std::move(soundNode));
 
+    mZombieManager = new ZombieManager(mPlayerHuman, mActiveEnemies, mTextures, mSceneLayers[UpperAir]);
+	mZombieManager->setPathFindingGrid(mPathfindingGrid);
+
+
 }
 
 void World::draw(){
@@ -136,18 +107,19 @@ void World::update(sf::Time dt){
 	while (!mCommandQueue.isEmpty())
 		mSceneGraph.onCommand(mCommandQueue.pop(), dt);
 
-	updateActiveEnemies();
+    updateActiveEnemies();
+
 	mSceneGraph.removeWrecks();
 	//mSceneGraph.clearNodes();
 
 	mSceneGraph.update(dt, mCommandQueue);
+    mZombieManager->update(dt);
 
-	mPlayerHuman->setVelocity(0.f, 0.f);
+    mPlayerHuman->setVelocity(0.f, 0.f);
 	updateSounds();
 
 	handleCollisions();
 
-	updatePlayerGridPosition();
 	//printf("%i\n", mActiveEnemies.size());
 
 	mWorldView.setCenter(mPlayerHuman->getWorldPosition());
@@ -272,60 +244,16 @@ void World::testSolids(){
 
 	addFence(31, 15);
 	addFence(35, 7);
-	
 
-	/*for (int i = 1; i < 9; i++)
-		if (i != 5 && i != 4){
-		std::unique_ptr<SpriteNode> sprite(new SpriteNode(texture, textureRect));
-		sprite->setPosition(200, 100 + 50*i);
-		sprite->setSolid(true);
-		mSceneLayers[UpperAir]->attachChild(std::move(sprite));
-	}
-
-	for (int i = 0; i < 9; i++){
-		std::unique_ptr<SpriteNode> sprite(new SpriteNode(texture, textureRect));
-		sprite->setPosition(700, 100 + 50 * i);
-		sprite->setSolid(true);
-		mSceneLayers[UpperAir]->attachChild(std::move(sprite));
-	}*/
 }
 
 void World::testZombies(){
 
+    mZombieManager->addSpawner(38,7);
+	mZombieManager->addSpawner(38,9);
 
-	   spawnZombie(32, 15);
-		addSpawner(32,15);
+	mZombieManager->addSpawner(32,16);
 
-	addSpawner(38,7);
-	spawnZombie(38, 7);
-
-
-
-	
-	//spawnZombie(3, 1);
-
-}
-
-void World::addSpawner(int x, int y) {
-
-
-	std::unique_ptr<Spawner> spawner(new Spawner(mTextures));
-	spawner->setPosition(100 * x, 100 * y);
-	mSceneLayers[UpperAir]->attachChild(std::move(spawner));
-
-}
-
-void World::spawnZombie(int x, int y){
-	std::unique_ptr<Zombie> zombie(new Zombie(mTextures));
-	zombie->setPosition(100*x+50,100*y+50);
-	
-
-	std::vector<sf::Vector2f> path = mPathfindingGrid.findPath({ x,y }, mPlayerGridPosition);
-	zombie->setTarget(mPlayerHuman);
-	zombie->setPath(path);
-
-	mActiveEnemies.push_back(zombie.get());
-	mSceneLayers[UpperAir]->attachChild(std::move(zombie));
 
 }
 
@@ -355,7 +283,7 @@ void World::printGrid(){
 	//mPathfindingGrid.print();
 
 
-	std::vector<sf::Vector2f> path = mPathfindingGrid.findPath({ 99,99 }, mPlayerGridPosition);
+	/*std::vector<sf::Vector2f> path = mPathfindingGrid.findPath({ 99,99 }, mPlayerGridPosition);
 	printf("PATH : %i\n", path.size());
 	printf("\n");
 
@@ -367,16 +295,7 @@ void World::printGrid(){
 		sprite->setPosition(path[i].x, path[i].y);
 		sprite->setSolid(false);
 		mSceneLayers[UpperAir]->attachChild(std::move(sprite));
-	}
-}
-
-void World::updatePlayerGridPosition(){
-	PathFindingGrid::Position a = { mPlayerHuman->getWorldPosition().x / 100, mPlayerHuman->getWorldPosition().y / 100 };
-	if (a.x != mPlayerGridPosition.x || a.y != mPlayerGridPosition.y){
-		printf("%i,%i\n", a.x, a.y);
-		mPlayerGridPosition = a;
-		updateEnemiesPath();
-	}
+	}*/
 }
 
 void World::updateActiveEnemies(){
@@ -385,26 +304,4 @@ void World::updateActiveEnemies(){
 
 	mActiveEnemies.erase(wreckfieldBegin1, mActiveEnemies.end());
 
-}
-
-void World::updateEnemiesPath(){
-	std::unordered_map<PathFindingGrid::Position,Path> startPoints;
-	FOREACH(auto zombie, mActiveEnemies){
-		int x = zombie->getWorldPosition().x / 100;
-		int y = zombie->getWorldPosition().y / 100;
-
-	
-			//printf("CLOSE\n");
-			if (!startPoints.count({ x, y })){
-				startPoints[{x, y}] = mPathfindingGrid.findPath({ x, y }, mPlayerGridPosition);
-			}
-
-			zombie->setPath(startPoints[{x, y}]);
-
-		
-		
-		//printf("%i\n", startPoints.size());
-	//	std::vector<sf::Vector2f> path = mPathfindingGrid.findPath({ x, y }, mPlayerGridPosition);
-	//	zombie->setPath(path);
-	}
 }

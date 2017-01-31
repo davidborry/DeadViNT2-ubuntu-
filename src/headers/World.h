@@ -20,8 +20,7 @@
 #include "entities/Zombie.hpp"
 #include "util/PathFindingGrid.hpp"
 #include "entities/Fence.hpp"
-
-
+#include "game/ZombieManager.hpp"
 
 
 class World : private sf::NonCopyable{
@@ -55,12 +54,8 @@ private:
 	void testCollisions();
 	void testSolids();
 	void testZombies();
-	void addSpawner(int x, int y);
-	void spawnZombie(int x, int y);
 
-	void updatePlayerGridPosition();
 	void updateActiveEnemies();
-	void updateEnemiesPath();
 
 private:
 	enum Layer{
@@ -80,6 +75,7 @@ private:
 	sf::RenderTexture mSceneTexture;
 	BloomEffect mBloomEffect;
 	SoundPlayer& mSounds;
+    ZombieManager* mZombieManager;
 
 	sf::FloatRect mWorldBounds;
 	sf::Vector2f mSpawnPosition;
@@ -94,7 +90,6 @@ private:
 	CollisionGrid mCollisionGrid;
 
 	PathFindingGrid mPathfindingGrid;
-	PathFindingGrid::Position mPlayerGridPosition;
 
 	std::vector<Zombie*> mActiveEnemies;
 };
