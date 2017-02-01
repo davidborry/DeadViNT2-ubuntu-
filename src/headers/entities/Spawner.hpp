@@ -12,9 +12,9 @@ public:
     virtual unsigned int getCategory() const;
     virtual sf::FloatRect getBoundingRect() const;
 
+    void setGridPosition(int x, int y);
     void spawn(SceneNode& node, const TextureHolder& textures);
-
-    void setPlayerGridPosition(PathFindingGrid::Position position);
+    void push(int i);
 
 private:
     virtual void updateCurrent(sf::Time dt, CommandQueue& commands);
@@ -28,8 +28,10 @@ private:
 
     PathFindingGrid* mPathFindingGrid;
     PathFindingGrid::Position mPlayerGridPosition;
+    PathFindingGrid::Position mSpawnerGridPosition;
 
-    int n = 10;
+
+    int n = 0;
 
 };
 

@@ -282,8 +282,12 @@ void World::addFence(int x, int y){
 void World::printGrid(){
 	//mPathfindingGrid.print();
 
+    PathFindingGrid::Position mPlayerGridPosition = {mPlayerHuman->getWorldPosition().x/100, mPlayerHuman->getWorldPosition().y/100};
+    cout << "GRID " << mPlayerGridPosition.x << " : " << mPlayerGridPosition.y << endl;
 
-	/*std::vector<sf::Vector2f> path = mPathfindingGrid.findPath({ 99,99 }, mPlayerGridPosition);
+	std::vector<sf::Vector2f> path = mPathfindingGrid.findPath({ 99,99 }, mPlayerGridPosition);
+
+    cout << "LAST : " << path.back().x << " : " <<path.back().y << endl;
 	printf("PATH : %i\n", path.size());
 	printf("\n");
 
@@ -295,7 +299,7 @@ void World::printGrid(){
 		sprite->setPosition(path[i].x, path[i].y);
 		sprite->setSolid(false);
 		mSceneLayers[UpperAir]->attachChild(std::move(sprite));
-	}*/
+	}
 }
 
 void World::updateActiveEnemies(){

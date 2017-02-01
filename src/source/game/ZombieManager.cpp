@@ -40,12 +40,13 @@ mActiveEnemies(activeEnemies),
 mPlayerHuman(human),
 mTextures(textures),
 mLayer(layer),
-mPathfindingGrid(nullptr)
+mPathfindingGrid(nullptr),
+mRound(1)
 {
 
-    mPathfindingGrid = new PathFindingGrid(100,100);
     mPlayerGridPosition.x = mPlayerHuman->getWorldPosition().x / 100;
     mPlayerGridPosition.y = mPlayerHuman->getWorldPosition().y / 100;
+
 
     printf("Initialized Zombie Manager\n");
 
@@ -53,7 +54,21 @@ mPathfindingGrid(nullptr)
 
 
 void ZombieManager::update(sf::Time dt) {
-    cout << "ENEMIES : " << mActiveEnemies.size() << endl;
+    //cout << "ENEMIES : " << mActiveEnemies.size() << endl;
+    static bool newRound = false;
+
+
+    if(mActiveEnemies.size() == 0 && !newRound){
+        cout << "ENEMIES : " << mActiveEnemies.size() << endl;
+        FOREACH(auto spawner, mSpawners)
+            spawner->push(mRound);
+
+        mRound++;
+    }
+
+    newRound = !newRound;
+
+   // cout << " ROUND " << mRound << endl;
     updatePlayerGridPosition();
 }
 
@@ -61,8 +76,10 @@ void ZombieManager::addSpawner(int x, int y) {
 
 
     std::unique_ptr<Spawner> spawner(new Spawner(mTextures, mActiveEnemies, mPlayerHuman, mPathfindingGrid));
-    spawner->setPosition(100 * x, 100 * y);
+    spawner->setGridPosition(x, y);
 
+    mSpawners.push_back(spawner.get());
+   // spawner->push(10);
     mLayer->attachChild(std::move(spawner));
 
 }

@@ -26,6 +26,7 @@ private:
 	virtual void drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const;
 	void playLocalSound(CommandQueue& commands, Resources::SoundEffects::ID effect);
 
+
 private:
 	sf::Sprite mSprite;
 	Type mType;

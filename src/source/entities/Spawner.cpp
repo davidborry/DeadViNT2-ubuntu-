@@ -18,10 +18,6 @@ mPlayerHuman(human),
 mPathFindingGrid(pathFindingGrid)
 {
 
-    mPlayerGridPosition.x = mPlayerHuman->getWorldPosition().x / 100;
-    mPlayerGridPosition.y = mPlayerHuman->getWorldPosition().y / 100;
-
-
     mSpawnCommmand.category = Category::SceneAirLayer;
     mSpawnCommmand.action = [this, &textures] (SceneNode& node, sf::Time) {
         spawn(node, textures);
@@ -32,7 +28,10 @@ mPathFindingGrid(pathFindingGrid)
 
 void Spawner::spawn(SceneNode& node, const TextureHolder& textures) {
 
-    int x = getWorldPosition().x / 100, y = getWorldPosition().y / 100;
+    mPlayerGridPosition.x = mPlayerHuman->getWorldPosition().x / 100;
+    mPlayerGridPosition.y = mPlayerHuman->getWorldPosition().y / 100;
+
+    int x = mSpawnerGridPosition.x, y = mSpawnerGridPosition.y;
     std::unique_ptr<Zombie> zombie(new Zombie(textures));
     zombie->setPosition(100*x+50,100*y+50);
 
@@ -68,6 +67,11 @@ sf::FloatRect Spawner::getBoundingRect() const {
     return getWorldTransform().transformRect(mSprite.getGlobalBounds());
 }
 
-void Spawner::setPlayerGridPosition(PathFindingGrid::Position position) {
-    mPlayerGridPosition = position;
+void Spawner::push(int i) {
+    n+=i;
+}
+
+void Spawner::setGridPosition(int x, int y) {
+    setPosition(100*x,100*y);
+    mSpawnerGridPosition = {x, y};
 }

@@ -24,6 +24,7 @@ private:
 
 
 private:
+    int mRound;
     Human* mPlayerHuman;
     std::vector<Zombie*>& mActiveEnemies;
     std::vector<Spawner*> mSpawners;
