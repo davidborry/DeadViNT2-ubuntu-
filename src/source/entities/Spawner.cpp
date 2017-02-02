@@ -24,20 +24,20 @@ mPathFindingGrid(pathFindingGrid)
     };
 
     cout << mPlayerGridPosition.x << " - " << mPlayerGridPosition.y << endl;
+
+
+
 }
 
 void Spawner::spawn(SceneNode& node, const TextureHolder& textures) {
 
-    mPlayerGridPosition.x = mPlayerHuman->getWorldPosition().x / 100;
-    mPlayerGridPosition.y = mPlayerHuman->getWorldPosition().y / 100;
 
     int x = mSpawnerGridPosition.x, y = mSpawnerGridPosition.y;
     std::unique_ptr<Zombie> zombie(new Zombie(textures));
     zombie->setPosition(100*x+50,100*y+50);
 
-    std::vector<sf::Vector2f> path = mPathFindingGrid->findPath({ x,y }, mPlayerGridPosition);
     zombie->setTarget(mPlayerHuman);
-    zombie->setPath(path);
+    zombie->setPath(mPath);
 
     mActiveEnemies.push_back(zombie.get());
     node.attachChild(std::move(zombie));
@@ -59,6 +59,15 @@ void Spawner::drawCurrent(sf::RenderTarget &target, sf::RenderStates states) con
 
 }
 
+void Spawner::updatePath() {
+    mPlayerGridPosition.x = mPlayerHuman->getWorldPosition().x / 100;
+    mPlayerGridPosition.y = mPlayerHuman->getWorldPosition().y / 100;
+
+    mPath = mPathFindingGrid->findPath(mSpawnerGridPosition,mPlayerGridPosition);
+
+    //cout << "PATH : " << mPath.size() << endl;
+}
+
 unsigned int Spawner::getCategory() const{
     return Category::Spawner;
 }
@@ -74,4 +83,10 @@ void Spawner::push(int i) {
 void Spawner::setGridPosition(int x, int y) {
     setPosition(100*x,100*y);
     mSpawnerGridPosition = {x, y};
+
+    updatePath();
+}
+
+Path Spawner::getPath() const {
+    return mPath;
 }

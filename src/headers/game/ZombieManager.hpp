@@ -17,10 +17,9 @@ public:
 
     void setPathFindingGrid(PathFindingGrid& grid);
 
-
-private:
     void updatePlayerGridPosition();
     void updateEnemiesPath();
+    void updateSpawnersPath();
 
 
 private:

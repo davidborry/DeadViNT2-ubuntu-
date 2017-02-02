@@ -149,11 +149,21 @@ void World::handleCollisions(){
 			projectile->destroy();
 		}
 
+        else if(matchesCategories(pair,Category::Projectile, Category::Fence)){
+            auto fence = static_cast<Fence*>(pair.second);
+            int x = fence->getWorldPosition().x / 100, y = fence->getWorldPosition().y / 100;
+                mPathfindingGrid.setSolid(x,y,false);
+                mZombieManager->updateEnemiesPath();
+                mZombieManager->updateSpawnersPath();
+                fence->destroy();
+        }
+
 		else if (matchesCategories(pair, Category::PlayerHuman, Category::Obstacle))
 			mPlayerHuman->adjustPositionObstacle(pair.second);
 
-		else if (matchesCategories(pair, Category::Zombie, Category::Solid)){
-			auto zombie = static_cast<Zombie*>(pair.first);
+		//else if (matchesCategories(pair, Category::Zombie, Category::Solid)){
+        else if (matchesCategories(pair, Category::Zombie, Category::Obstacle)){
+            auto zombie = static_cast<Zombie*>(pair.first);
 			zombie->adjustPositionObstacle(pair.second);
 		}
 		
@@ -176,7 +186,6 @@ void World::handleCollisions(){
 			auto z2 = static_cast<Zombie*>(pair.second);
 
 			z1->adjustPositionObstacle(z2);
-
 		}
 	}
 
@@ -229,6 +238,14 @@ void World::drawGrid(int width, int height){
 void World::testSolids(){
 	//addObstacle(6, 7);
 
+    for(int i = 0; i < 5; i++){
+        addObstacle(i+35, 6);
+        addObstacle(i+35, 8);
+    }
+
+
+    addObstacle(39,7);
+
 	for (int i = 0; i < 5; i++){
 			addObstacle(i+30, 5);
 
@@ -249,10 +266,12 @@ void World::testSolids(){
 
 void World::testZombies(){
 
-    mZombieManager->addSpawner(38,7);
-	mZombieManager->addSpawner(38,9);
 
-	mZombieManager->addSpawner(32,16);
+    mZombieManager->addSpawner(38,7);
+	//mZombieManager->addSpawner(38,9);
+    mZombieManager->addSpawner(33,9);
+
+	mZombieManager->addSpawner(32,17);
 
 
 }
@@ -277,6 +296,9 @@ void World::addFence(int x, int y){
 	std::unique_ptr<Fence> fence(new Fence(texture));
 	fence->setPosition(100 * x, 100 * y);
 	mSceneLayers[UpperAir]->attachChild(std::move(fence));
+
+    mPathfindingGrid.setSolid(x, y, true);
+
 }
 
 void World::printGrid(){
@@ -285,7 +307,7 @@ void World::printGrid(){
     PathFindingGrid::Position mPlayerGridPosition = {mPlayerHuman->getWorldPosition().x/100, mPlayerHuman->getWorldPosition().y/100};
     cout << "GRID " << mPlayerGridPosition.x << " : " << mPlayerGridPosition.y << endl;
 
-	std::vector<sf::Vector2f> path = mPathfindingGrid.findPath({ 99,99 }, mPlayerGridPosition);
+	std::vector<sf::Vector2f> path = mPathfindingGrid.findPath({ 32,16 }, mPlayerGridPosition);
 
     cout << "LAST : " << path.back().x << " : " <<path.back().y << endl;
 	printf("PATH : %i\n", path.size());

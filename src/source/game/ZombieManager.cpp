@@ -59,11 +59,21 @@ void ZombieManager::update(sf::Time dt) {
 
 
     if(mActiveEnemies.size() == 0 && !newRound){
-        cout << "ENEMIES : " << mActiveEnemies.size() << endl;
-        FOREACH(auto spawner, mSpawners)
-            spawner->push(mRound);
+     //   cout << "ENEMIES : " << mActiveEnemies.size() << endl;
 
-        mRound++;
+        bool flag = false;
+        FOREACH(auto spawner, mSpawners) {
+                        if(spawner->getPath().size() > 1) {
+                            if(!flag) flag = true;
+                            spawner->push(mRound);
+
+                        }
+                    }
+
+       if(flag )
+            mRound++;
+
+
     }
 
     newRound = !newRound;
@@ -90,11 +100,13 @@ void ZombieManager::updatePlayerGridPosition() {
         //printf("%i,%i\n", a.x, a.y);
         mPlayerGridPosition = a;
         updateEnemiesPath();
+        updateSpawnersPath();
     }
 }
 
 void ZombieManager::updateEnemiesPath() {
     std::unordered_map<PathFindingGrid::Position,Path> startPoints;
+
     FOREACH(auto zombie, mActiveEnemies){
         int x = zombie->getWorldPosition().x / 100;
         int y = zombie->getWorldPosition().y / 100;
@@ -104,9 +116,15 @@ void ZombieManager::updateEnemiesPath() {
             startPoints[{x, y}] = mPathfindingGrid->findPath({ x, y }, mPlayerGridPosition);
         }
 
+                  //  cout << "PATH : " << startPoints[{x,y}].size() << endl;
         zombie->setPath(startPoints[{x,y}]);
 
     }
+}
+
+void ZombieManager::updateSpawnersPath() {
+    FOREACH(auto spawner, mSpawners)
+        spawner->updatePath();
 }
 
 void ZombieManager::setPathFindingGrid(PathFindingGrid& grid) {

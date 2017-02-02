@@ -12,6 +12,9 @@ public:
     virtual unsigned int getCategory() const;
     virtual sf::FloatRect getBoundingRect() const;
 
+    Path getPath() const;
+
+    void updatePath();
     void setGridPosition(int x, int y);
     void spawn(SceneNode& node, const TextureHolder& textures);
     void push(int i);
@@ -29,6 +32,7 @@ private:
     PathFindingGrid* mPathFindingGrid;
     PathFindingGrid::Position mPlayerGridPosition;
     PathFindingGrid::Position mSpawnerGridPosition;
+    Path mPath;
 
 
     int n = 0;
