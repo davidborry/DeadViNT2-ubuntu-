@@ -6,7 +6,7 @@
 class GameOverState : public State{
 
 public:
-	GameOverState(StateStack& stack, Context context, int params = 0);
+	GameOverState(StateStack& stack, Context& context, int params = 0);
 
 	virtual void draw();
 	virtual bool update(sf::Time dt);

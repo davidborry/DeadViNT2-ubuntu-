@@ -8,7 +8,7 @@
 class GameState : public State{
 
 public:
-	GameState(StateStack& stack, Context context, int param = 0);
+	GameState(StateStack& stack, Context& context, int param = 0);
 
 	virtual void draw();
 	virtual bool update(sf::Time dt);

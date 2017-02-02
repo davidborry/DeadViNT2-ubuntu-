@@ -3,7 +3,7 @@
 #include "../../headers/util/Utility.hpp"
 #include "../../headers/util/foreach.hpp"
 
-MenuState::MenuState(StateStack& stack, Context context, int param) : 
+MenuState::MenuState(StateStack& stack, Context& context, int param) :
 State(stack, context, param),
 mGUIContainer(context.window)
 {

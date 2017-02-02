@@ -2,7 +2,7 @@
 #include "../../headers/util/ResourceHolder.hpp"
 #include "../../headers/util/Utility.hpp"
 
-PauseState::PauseState(StateStack& stack, Context context, int param) :
+PauseState::PauseState(StateStack& stack, Context& context, int param) :
 State(stack, context, param),
 mBackgroundSprite(),
 mPauseText(),

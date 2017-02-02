@@ -15,7 +15,13 @@ class State{
 public:
 	typedef std::unique_ptr<State> Ptr;
 	struct Context{
-		Context(sf::RenderWindow& window, TextureHolder& textures, FontHolder& fonts, Player& player, MusicPlayer& music, SoundPlayer& sound);
+		Context(sf::RenderWindow& window,
+				TextureHolder& textures,
+				FontHolder& fonts,
+				Player& player,
+				MusicPlayer& music,
+				SoundPlayer& sound,
+				std::string& level);
 
 		sf::RenderWindow* window;
 		TextureHolder* textures;
@@ -23,10 +29,11 @@ public:
 		Player* player;
 		MusicPlayer* music;
 		SoundPlayer* sounds;
+		std::string* level;
 	};
 
 public:
-	State(StateStack& stack, Context context, int param = 0);
+	State(StateStack& stack, Context& context, int param = 0);
 	virtual ~State();
 
 	virtual void draw() = 0;
@@ -44,7 +51,7 @@ protected:
 
 protected:
 	StateStack* mStack;
-	Context mContext;
+	Context* mContext;
 
 	int mParam;
 };

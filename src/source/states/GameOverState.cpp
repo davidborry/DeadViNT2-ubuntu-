@@ -3,7 +3,7 @@
 #include "../../headers/Player.hpp"
 #include "../../headers/util/Utility.hpp"
 
-GameOverState::GameOverState(StateStack& states, Context context, int param) :
+GameOverState::GameOverState(StateStack& states, Context& context, int param) :
 State(states, context),
 mGameOverText(),
 mElapsedTime(sf::Time::Zero)

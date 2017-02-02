@@ -5,7 +5,7 @@
 
 class PauseState : public State{
 public:
-	PauseState(StateStack& stack, Context context, int param = 0);
+	PauseState(StateStack& stack, Context& context, int param = 0);
 	~PauseState();
 
 	virtual void draw();

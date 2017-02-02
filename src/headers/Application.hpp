@@ -26,12 +26,13 @@ private:
 private:
 	static const sf::Time TimePerFrame;
 
+	std::string mLevel;
 	sf::RenderWindow mWindow;
 	TextureHolder mTextures;
 	FontHolder mFonts;
 	Player mPlayer;
 
-	StateStack mStateStack;
+	StateStack* mStateStack;
 
 	sf::Text mStatisticsText;
 	sf::Time mStatisticsUpdateTime;
@@ -39,6 +40,8 @@ private:
 
 	MusicPlayer mMusic;
 	SoundPlayer mSounds;
+
+	State::Context mContext;
 	
 };
 

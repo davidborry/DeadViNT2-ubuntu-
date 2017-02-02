@@ -20,7 +20,9 @@ mFonts(),
 mPlayer(),
 mMusic(),
 mSounds(),
-mStateStack(State::Context(mWindow,mTextures,mFonts,mPlayer,mMusic,mSounds)),
+mLevel("test"),
+mContext(mWindow,mTextures,mFonts,mPlayer,mMusic, mSounds, mLevel),
+mStateStack(nullptr),
 mStatisticsText(),
 mStatisticsUpdateTime(),
 mStatisticsNumFrames(0)
@@ -34,8 +36,10 @@ mStatisticsNumFrames(0)
 	mStatisticsText.setPosition(5.f, 5.f);
 	mStatisticsText.setCharacterSize(10u);
 
+	mStateStack = new StateStack(mContext);
+
 	registerStates();
-	mStateStack.pushState(States::Game);
+	mStateStack->pushState(States::Loading);
 }
 
 void Application::run(){
@@ -53,7 +57,7 @@ void Application::run(){
 			update(TimePerFrame);
 
 			// Check inside this loop, because stack might be empty before update() call
-			if (mStateStack.isEmpty())
+			if (mStateStack->isEmpty())
 				mWindow.close();
 		}
 
@@ -66,7 +70,7 @@ void Application::processInputs(){
 	sf::Event event;
 
 	while (mWindow.pollEvent(event)){
-		mStateStack.handleEvent(event);
+		mStateStack->handleEvent(event);
 
 		if (event.type == sf::Event::Closed)
 			mWindow.close();
@@ -74,13 +78,13 @@ void Application::processInputs(){
 }
 
 void Application::update(sf::Time dt){
-	mStateStack.update(dt);
+	mStateStack->update(dt);
 }
 
 void Application::render(){
 	mWindow.clear();
 
-	mStateStack.draw();
+	mStateStack->draw();
 
 	mWindow.setView(mWindow.getDefaultView());
 	mWindow.draw(mStatisticsText);
@@ -102,11 +106,11 @@ void Application::updateStatistics(sf::Time dt){
 }
 
 void Application::registerStates(){
-	mStateStack.registerState<TitleState>(States::Title);
-	mStateStack.registerState<MenuState>(States::Menu);
-	mStateStack.registerState<LoadingState>(States::Loading);
-	mStateStack.registerState<GameState>(States::Game);
-	mStateStack.registerState<PauseState>(States::Pause);
-	mStateStack.registerState<SettingsState>(States::Settings);
-	mStateStack.registerState<GameOverState>(States::GameOver);
+	mStateStack->registerState<TitleState>(States::Title);
+	mStateStack->registerState<MenuState>(States::Menu);
+	mStateStack->registerState<LoadingState>(States::Loading);
+	mStateStack->registerState<GameState>(States::Game);
+	mStateStack->registerState<PauseState>(States::Pause);
+	mStateStack->registerState<SettingsState>(States::Settings);
+	mStateStack->registerState<GameOverState>(States::GameOver);
 }

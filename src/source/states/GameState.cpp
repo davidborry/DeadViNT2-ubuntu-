@@ -1,13 +1,13 @@
 #include "../../headers/states/GameState.hpp"
 #include "../../headers/states/StateStack.hpp"
 
-GameState::GameState(StateStack& stack, Context context, int param) :
+GameState::GameState(StateStack& stack, Context& context, int param) :
 State(stack, context,param),
 mWorld(*context.window,*context.fonts,*context.sounds),
 mPlayer(*context.player)
 {
 
-
+	cout << "LEVEL : " << *mContext->level << endl;
 	//context.music->play(Resources::Musics::MissionTheme);
 
 }

@@ -2,7 +2,7 @@
 #include "../../headers/util/Utility.hpp"
 #include "../../headers/util/ResourceHolder.hpp"
 
-TitleState::TitleState(StateStack& stack, Context context, int param): 
+TitleState::TitleState(StateStack& stack, Context& context, int param):
 State(stack,context, param),
 mText(),
 mShowText(true),

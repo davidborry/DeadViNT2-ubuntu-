@@ -1,7 +1,7 @@
 #include <iostream>
 #include "../../headers/states/StateStack.hpp"
 
-StateStack::StateStack(State::Context context) : mStack(), mPendingList(), mFactories(), mContext(context)
+StateStack::StateStack(State::Context& context) : mStack(), mPendingList(), mFactories(), mContext(context)
 {
 
 }

@@ -5,7 +5,7 @@
 
 class TitleState : public State{
 public:
-	TitleState(StateStack& stack, Context context, int param = 0);
+	TitleState(StateStack& stack, Context& context, int param = 0);
 
 	virtual void draw();
 	virtual bool update(sf::Time dt);

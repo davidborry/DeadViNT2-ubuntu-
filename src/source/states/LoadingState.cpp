@@ -1,8 +1,14 @@
+#include <iostream>
 #include "../../headers/states/LoadingState.hpp"
 #include "../../headers/util/ResourceHolder.hpp"
 #include "../../headers/util/Utility.hpp"
 
-LoadingState::LoadingState(StateStack& stack, Context context, int param) : State(stack, context, param){
+LoadingState::LoadingState(StateStack& stack, Context& context, int param) : State(stack, context, param){
+
+	std::cout << "LEVEL : " << *(mContext->level) << std::endl;
+
+	mContext->level = new std::string("map") ;
+
 	sf::RenderWindow& window = *getContext().window;
 	sf::Font& font = context.fonts->get(Resources::Fonts::Main);
 	sf::Vector2f viewSize = window.getView().getSize();

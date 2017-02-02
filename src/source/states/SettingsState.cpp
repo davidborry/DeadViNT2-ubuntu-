@@ -1,7 +1,7 @@
 #include "../../headers/states/SettingsState.hpp"
 #include "../../headers/util/Utility.hpp"
 
-SettingsState::SettingsState(StateStack& stack, Context context, int param) :
+SettingsState::SettingsState(StateStack& stack, Context& context, int param) :
 State(stack, context),
 mGUIContainer(context.window)
 {
