@@ -11,6 +11,9 @@ mSprite(textures.get(Resources::Textures::Human))
 	mGun = gun.get();
 	mGun->setPosition(0.f, -25.f);
 	attachChild(std::move(gun));
+
+	for(int i = 0; i < 8; i++)
+		mCloseEnemies[i] = false;
 }
 
 void Human::fire(){
@@ -27,4 +30,12 @@ sf::FloatRect Human::getBoundingRect() const{
 
 unsigned int Human::getCategory() const{
 	return Category::PlayerHuman;
+}
+
+bool Human::closeEnemy(int side) const {
+	return mCloseEnemies[side];
+}
+
+void Human::enemyClose(int side, bool close) {
+	mCloseEnemies[side] = close;
 }

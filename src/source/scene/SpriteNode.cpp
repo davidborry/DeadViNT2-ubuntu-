@@ -1,9 +1,11 @@
 #include "../../headers/scene/SpriteNode.hpp"
+#include "../../headers/util/Utility.hpp"
 
 SpriteNode::SpriteNode(const sf::Texture& texture, bool solid)
 	: mSprite(texture),
 	mSolid(solid)
 {
+	centerOrigin(mSprite);
 }
 
 SpriteNode::SpriteNode(const sf::Texture& texture, const sf::IntRect& textureRect)
@@ -13,6 +15,7 @@ SpriteNode::SpriteNode(const sf::Texture& texture, const sf::IntRect& textureRec
 
 void SpriteNode::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const
 {
+	if(mVisible)
 	target.draw(mSprite, states);
 }
 

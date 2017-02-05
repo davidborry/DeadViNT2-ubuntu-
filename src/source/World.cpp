@@ -14,7 +14,8 @@ mPlayerHuman(nullptr),
 gameOver(false),
 mCollisionCell(),
 mCollisionGrid(10000,10000,1000,1000),
-mPathfindingGrid(100,100)
+mPathfindingGrid(100,100),
+mHUD(nullptr)
 {
     mSceneTexture.create(outputTarget.getSize().x, outputTarget.getSize().y);
 
@@ -40,6 +41,7 @@ void World::loadTextures(){
 	mTextures.load(Resources::Textures::Zombie, "Resources/img/Zombie.png");
 	mTextures.load(Resources::Textures::Fence, "Resources/img/Fence.png");
 	mTextures.load(Resources::Textures::Spawner, "Resources/img/Spawner.png");
+    mTextures.load(Resources::Textures::Radar,"Resources/img/Arc.png");
 
 }
 
@@ -70,6 +72,10 @@ void World::buildScene(){
 	human->setPosition(mSpawnPosition);
 	mPlayerHuman = human.get();
 	mSceneLayers[UpperAir]->attachChild(std::move(human));
+
+	std::unique_ptr<HUD> hud(new HUD(mTextures, mPlayerHuman));
+	mHUD = hud.get();
+	mSceneLayers[HudLayer]->attachChild(std::move(hud));
 
 	std::unique_ptr<SoundNode> soundNode(new SoundNode(mSounds));
 	mSceneGraph.attachChild(std::move(soundNode));
@@ -123,6 +129,7 @@ void World::update(sf::Time dt){
 	//printf("%i\n", mActiveEnemies.size());
 
 	mWorldView.setCenter(mPlayerHuman->getWorldPosition());
+
 }
 
 CommandQueue& World::getCommandQueue(){

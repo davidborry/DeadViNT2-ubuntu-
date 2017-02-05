@@ -49,6 +49,10 @@ public:
 
 	SceneNode* getNode(int i);
 
+	void show();
+	void hide();
+	bool isHidden() const;
+
 private:
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	virtual void drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const;
@@ -64,6 +68,8 @@ protected:
 
 	SceneNode* mParent;
 	Category::Type mDefaultCategory;
+
+	bool mVisible = true;
 };
 
 float distance(const SceneNode& lhs, const SceneNode& rhs);

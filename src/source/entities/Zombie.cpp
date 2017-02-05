@@ -21,6 +21,9 @@ void Zombie::updateCurrent(sf::Time dt, CommandQueue& commands){
 		followPath(dt);
 	//printf("%f, %f\n", angle, getRotation());
 
+	if(getWorldPosition().y > mTarget->getWorldPosition().y)
+		mTarget->enemyClose(HUD::S);
+
 
 //	setRotation(angle);
 

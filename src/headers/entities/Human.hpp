@@ -3,6 +3,7 @@
 
 #include "Entity.hpp"
 #include "weapons/Gun.hpp"
+#include "../game/HUD.hpp"
 
 class Human : public Entity{
 public:
@@ -13,12 +14,17 @@ public:
 
 	void fire();
 
+	bool closeEnemy(int side) const;
+	void enemyClose(int side, bool close = true);
+
 private:
 	virtual void drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const;
 
 private:
 	sf::Sprite mSprite;
 	Gun* mGun;
+
+	std::array<bool,8> mCloseEnemies;
 };
 
 #endif

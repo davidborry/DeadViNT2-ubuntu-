@@ -209,3 +209,15 @@ void SceneNode::addNodes(){
 void SceneNode::clearNodes(){
 	getRoot()->mNodes.clear();
 }
+
+void SceneNode::show() {
+	mVisible = true;
+}
+
+void SceneNode::hide() {
+	mVisible = false;
+}
+
+bool SceneNode::isHidden() const {
+	return !mVisible;
+}

@@ -27,6 +27,7 @@ namespace Resources{
 			Solid,
 			Fence,
 			Spawner,
+			Radar,
 		};
 
 	}

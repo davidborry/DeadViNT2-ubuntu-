@@ -62,6 +62,7 @@ private:
 		Background,
 		LowerAir,
 		UpperAir,
+		HudLayer,
 		LayerCount
 	};
 
@@ -92,6 +93,8 @@ private:
 	PathFindingGrid mPathfindingGrid;
 
 	std::vector<Zombie*> mActiveEnemies;
+
+	HUD* mHUD;
 };
 
 
