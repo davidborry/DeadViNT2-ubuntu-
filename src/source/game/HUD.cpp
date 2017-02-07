@@ -44,13 +44,10 @@ mPlayerHuman(nullptr)
     mRadar[SW]->move(-200.f,100.f);
 
 
-
-
 }
 
 void HUD::updateCurrent(sf::Time dt, CommandQueue &commands) {
     setPosition(mPlayerHuman->getWorldPosition() + sf::Vector2f(0.f,100.f));
-
     for(std::size_t i = 0; i < RadarCount; i++){
       //  cout << mPlayerHuman->closeEnemy(i) << endl;
         if(mPlayerHuman->closeEnemy(i)){

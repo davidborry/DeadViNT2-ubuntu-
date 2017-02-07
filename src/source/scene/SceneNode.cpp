@@ -38,7 +38,9 @@ void SceneNode::draw(sf::RenderTarget& target, sf::RenderStates states) const{
 	//drawBoundingRect(target,states);
 	states.transform *= getTransform();
 	drawCurrent(target, states);
-	drawChildren(target, states);
+
+	if(mVisible)
+		drawChildren(target, states);
 	
 }
 

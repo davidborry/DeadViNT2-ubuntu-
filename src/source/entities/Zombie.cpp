@@ -1,3 +1,4 @@
+#include <iostream>
 #include "../../headers/entities/Zombie.hpp"
 #include "../../headers/entities/Human.hpp"
 #include "../../headers/util/Utility.hpp"
@@ -21,9 +22,7 @@ void Zombie::updateCurrent(sf::Time dt, CommandQueue& commands){
 		followPath(dt);
 	//printf("%f, %f\n", angle, getRotation());
 
-	if(getWorldPosition().y > mTarget->getWorldPosition().y)
-		mTarget->enemyClose(HUD::S);
-
+	updateTargetRadar();
 
 //	setRotation(angle);
 
@@ -108,6 +107,45 @@ void Zombie::followPath(sf::Time dt){
 
 	
 	
+}
+
+void Zombie::updateTargetRadar() {
+
+    sf::Vector2f p1 = mTarget->getWorldPosition() - getWorldPosition();
+    sf::Vector2f p2 = sf::Vector2f(0,mTarget->getWorldPosition().y);
+
+
+   float dot = p1.x*p2.x + p1.y*p2.y ;     // dot product
+    float det = p1.x*p2.y - p1.y*p2.x ;     // determinant
+   int angle2 = toDegree(atan2(det, dot)) + 22; // atan2(y, x) or atan2(sin, cos)
+
+    if(angle2 < 0)
+        angle2+=360;
+
+    int f = angle2/ 45;
+   // cout << f <<endl;
+
+   if(f==0)
+       mTarget->enemyClose(HUD::N,true);
+       else if(f==1)
+        mTarget->enemyClose(HUD::NW,true);
+       else if(f==2)
+       mTarget->enemyClose(HUD::W,true);
+    else if (f==3)
+       mTarget->enemyClose(HUD::SW,true);
+    else if(f==4)
+       mTarget->enemyClose(HUD::S,true);
+    else if(f==5)
+       mTarget->enemyClose(HUD::SE,true);
+    else if(f==6)
+       mTarget->enemyClose(HUD::E,true);
+    else
+       mTarget->enemyClose(HUD::NE,true);
+
+
+   // if(getWorldPosition().y > mTarget->getWorldPosition().y)
+     //   mTarget->enemyClose(HUD::S);
+
 }
 
 void Zombie::updateSteering(){

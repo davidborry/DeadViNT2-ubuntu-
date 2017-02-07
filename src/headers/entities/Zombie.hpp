@@ -27,6 +27,8 @@ public:
 	void setPath(Path path);
 	Path getPath() const;
 
+	void updateTargetRadar();
+
 private:
 	virtual void updateCurrent(sf::Time dt, CommandQueue& commands);
 	void drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const;
