@@ -19,6 +19,7 @@ public:
 		TurnLeft,
 		Fire,
 		Grenade,
+		ShowRadar,
 		ActionCount
 	};
 

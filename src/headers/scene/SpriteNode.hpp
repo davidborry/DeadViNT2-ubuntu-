@@ -15,6 +15,9 @@ public:
 	virtual sf::FloatRect getBoundingRect() const;
 	virtual unsigned int getCategory() const;
 
+	void setOpacity(const int a);
+	int getOpacity() const;
+
 
 protected:
 	virtual void drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const;

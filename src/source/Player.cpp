@@ -11,12 +11,15 @@ gameOver(false)
 	mKeyBinding[sf::Keyboard::Z] = Action::Forward;
 	mKeyBinding[sf::Keyboard::S] = Action::Backwards;
 	mKeyBinding[sf::Keyboard::Space] = Action::Fire;
+	mKeyBinding[sf::Keyboard::R] = Action::ShowRadar;
 
 	initializeActions();
 
 	FOREACH(auto& pair, mActionBinding){
 		pair.second.category = Category::PlayerHuman;
 	}
+
+	mActionBinding[Action::ShowRadar].category = Category::HUD;
 
 }
 
@@ -30,6 +33,11 @@ void Player::handleEvents(const sf::Event& event, CommandQueue& commands){
 				std::cout << s.getPosition().x << ',' << s.getPosition().y << std::endl;
 			};
 
+			commands.push(output);
+		}
+
+		else if(event.key.code == sf::Keyboard::R){
+			Command output = mActionBinding[mKeyBinding[event.key.code]];
 			commands.push(output);
 		}
 
@@ -69,6 +77,12 @@ void Player::initializeActions(){
 	mActionBinding[Fire].action = derivedAction<Human>([](Human& h, sf::Time){
 		h.fire();
 	});
+
+	mActionBinding[ShowRadar].action = derivedAction<HUD>([] (HUD& hud, sf::Time){
+
+		hud.display();
+	});
+
 
 }
 

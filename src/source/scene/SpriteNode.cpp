@@ -6,6 +6,7 @@ SpriteNode::SpriteNode(const sf::Texture& texture, bool solid)
 	mSolid(solid)
 {
 	centerOrigin(mSprite);
+
 }
 
 SpriteNode::SpriteNode(const sf::Texture& texture, const sf::IntRect& textureRect)
@@ -33,4 +34,12 @@ bool SpriteNode::isSolid() const{
 
 unsigned int SpriteNode::getCategory() const{
 	return isSolid() ? Category::Solid : Category::None;
+}
+
+void SpriteNode::setOpacity(const int a) {
+	mSprite.setColor(sf::Color(mSprite.getColor().r,mSprite.getColor().g,mSprite.getColor().b, std::min(a,255)));
+}
+
+int SpriteNode::getOpacity() const {
+	return mSprite.getColor().a;
 }

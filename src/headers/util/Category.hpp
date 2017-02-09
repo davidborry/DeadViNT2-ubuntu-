@@ -15,6 +15,7 @@ namespace Category{
 		Zombie = 1 << 10,
 		Spawner = 1 << 11,
 		Fence = 1 << 12,
+		HUD = 1 << 13,
 
 		Projectile = AlliedProjectile | EnemyProjectile,
 		Obstacle = Solid | Fence
