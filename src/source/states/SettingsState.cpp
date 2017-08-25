@@ -24,7 +24,7 @@ mGUIContainer(context.window)
 
 void SettingsState::updateLabels(){
 	Player& player = *getContext().player;
-	for (std::size_t i = 0; i < Player::ActionCount - 2; i++){
+	for (std::size_t i = 0; i < Player::ActionCount - 3; i++){
 		sf::Keyboard::Key key = player.getAssignedKey(static_cast<Player::Action>(i));
 		mBindingLabels[i]->setText(std::to_string(key));
 	}
@@ -44,7 +44,7 @@ bool SettingsState::update(sf::Time dt){
 
 bool SettingsState::handleEvent(const sf::Event& event){
 	bool isKeyBinding = false;
-	for (std::size_t action = 0; action < Player::ActionCount - 2; action++){
+	for (std::size_t action = 0; action < Player::ActionCount - 3; action++){
 		if (mBindingButtons[action]->isActive()){
 			isKeyBinding = true;
 			if (event.type == sf::Event::KeyReleased){

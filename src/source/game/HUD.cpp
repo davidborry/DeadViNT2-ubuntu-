@@ -44,7 +44,7 @@ mPlayerHuman(nullptr)
     mRadar[SE]->move(140.f,40.f);
     mRadar[SW]->move(-140.f,40.f);
 
-    mDisplay = true;
+    mDisplay = false;
 
 
 }
