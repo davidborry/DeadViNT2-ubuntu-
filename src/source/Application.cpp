@@ -21,12 +21,15 @@ mPlayer(),
 mMusic(),
 mSounds(),
 mLevel("test"),
-mContext(mWindow,mTextures,mFonts,mPlayer,mMusic, mSounds, mLevel),
+mWorld(mWindow, mFonts, mSounds),
+mContext(mWindow,mTextures,mFonts,mPlayer,mMusic, mSounds, mWorld, mLevel),
 mStateStack(nullptr),
 mStatisticsText(),
 mStatisticsUpdateTime(),
 mStatisticsNumFrames(0)
 {
+
+
 	mWindow.setKeyRepeatEnabled(false);
 	
 	mFonts.load(Resources::Fonts::Main, "Resources/font/Sansation.ttf");
@@ -39,7 +42,7 @@ mStatisticsNumFrames(0)
 	mStateStack = new StateStack(mContext);
 
 	registerStates();
-	mStateStack->pushState(States::Game);
+	mStateStack->pushState(States::Loading);
 }
 
 void Application::run(){

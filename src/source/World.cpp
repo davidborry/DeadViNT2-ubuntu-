@@ -7,17 +7,26 @@ mTarget(outputTarget),
 mFonts(fonts),
 mSounds(sounds),
 mWorldView(outputTarget.getDefaultView()),
-mWorldBounds(0.f, 0.f, 10000, 10000),
-mSpawnPosition(3100.f, 700.f),
 mScrollSpeed(-50.f),
 mPlayerHuman(nullptr),
 gameOver(false),
-mCollisionCell(),
-mCollisionGrid(10000,10000,1000,1000),
-mPathfindingGrid(100,100),
+mCollisionGrid(0,0),
+mPathfindingGrid(0,0),
 mHUD(nullptr)
 {
-    mSceneTexture.create(outputTarget.getSize().x, outputTarget.getSize().y);
+
+   // cout << "WORLD" << endl;
+
+}
+
+void World::init(){
+    mWorldBounds = sf::FloatRect(0.f, 0.f, 100*CELL_WIDTH, 100*CELL_WIDTH);
+    mSpawnPosition = sf::Vector2f(31*CELL_WIDTH, 7*CELL_WIDTH);
+
+    mCollisionGrid = CollisionGrid(100*CELL_WIDTH,100*CELL_WIDTH);
+    mPathfindingGrid = PathFindingGrid(100,100);
+
+	mSceneTexture.create(mTarget.getSize().x, mTarget.getSize().y);
 
 	loadTextures();
 	buildScene();
@@ -26,7 +35,6 @@ mHUD(nullptr)
 	testSolids();
 	testZombies();
 	mWorldView.setCenter(mSpawnPosition);
-
 }
 
 void World::loadTextures(){

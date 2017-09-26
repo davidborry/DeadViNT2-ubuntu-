@@ -10,6 +10,7 @@
 
 class StateStack;
 class Player;
+class World;
 
 class State{
 public:
@@ -21,6 +22,7 @@ public:
 				Player& player,
 				MusicPlayer& music,
 				SoundPlayer& sound,
+				World& world,
 				std::string& level);
 
 		sf::RenderWindow* window;
@@ -29,6 +31,7 @@ public:
 		Player* player;
 		MusicPlayer* music;
 		SoundPlayer* sounds;
+		World* world;
 		std::string* level;
 	};
 

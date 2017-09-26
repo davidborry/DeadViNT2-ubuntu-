@@ -7,6 +7,7 @@ State::Context::Context(sf::RenderWindow& window,
 						Player& player,
 						MusicPlayer& music,
 						SoundPlayer& sounds,
+						World& world,
 						std::string& level) :
 window(&window),
 textures(&textures),
@@ -14,6 +15,7 @@ fonts(&fonts),
 player(&player),
 music(&music),
 sounds(&sounds),
+world(&world),
 level(&level)
 {
 

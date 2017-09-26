@@ -5,6 +5,7 @@
 #include "util/ResourceHolder.hpp"
 #include "util/ResourceIdentifier.hpp"
 #include "Player.hpp"
+#include "World.h"
 #include "states/StateStack.hpp"
 #include "sound/MusicPlayer.hpp"
 #include "../headers/sound/SoundPlayer.hpp"
@@ -31,6 +32,7 @@ private:
 	TextureHolder mTextures;
 	FontHolder mFonts;
 	Player mPlayer;
+	World mWorld;
 
 	StateStack* mStateStack;
 

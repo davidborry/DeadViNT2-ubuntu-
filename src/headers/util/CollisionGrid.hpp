@@ -7,7 +7,7 @@
 class CollisionGrid{
 	
 public:
-	CollisionGrid(float worldWidth, float worldHeight, float cellWidth = 100.f, float cellHeight = 100.f);
+	CollisionGrid(float worldWidth, float worldHeight, float cellWidth = 1000.f, float cellHeight = 1000.f);
 
 	void build(std::vector<SceneNode*> nodes);
 	void clear();

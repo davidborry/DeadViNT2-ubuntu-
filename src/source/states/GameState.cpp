@@ -13,7 +13,7 @@ mPlayer(*context.player)
 }
 
 void GameState::draw(){
-	mWorld.draw();
+	getContext().world->draw();
 }
 
 bool GameState::update(sf::Time dt){
@@ -21,15 +21,15 @@ bool GameState::update(sf::Time dt){
 	/*if (mWorld.gameStatus())
 		mPlayer.endGame();*/
 
-	mWorld.update(dt);
-	CommandQueue& commands = mWorld.getCommandQueue();
+    getContext().world->update(dt);
+	CommandQueue& commands = getContext().world->getCommandQueue();
 	mPlayer.handleRealTimeInputs(commands);
 
 	return true;
 }
 
 bool GameState::handleEvent(const sf::Event& event){
-	CommandQueue& commands = mWorld.getCommandQueue();
+	CommandQueue& commands =getContext().world->getCommandQueue();
 	mPlayer.handleEvents(event, commands);
 
 
@@ -40,7 +40,7 @@ bool GameState::handleEvent(const sf::Event& event){
 	}
 
 	else if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::E)
-		mWorld.printGrid();
+        getContext().world->printGrid();
 
 	return true;
 }

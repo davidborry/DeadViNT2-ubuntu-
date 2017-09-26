@@ -3,11 +3,14 @@
 #include "../../headers/util/ResourceHolder.hpp"
 #include "../../headers/util/Utility.hpp"
 
+#include "../../headers/World.h";
 LoadingState::LoadingState(StateStack& stack, Context& context, int param) : State(stack, context, param){
 
 	std::cout << "LEVEL : " << *(mContext->level) << std::endl;
 
 	mContext->level = new std::string("map") ;
+
+	getContext().world->init();
 
 	sf::RenderWindow& window = *getContext().window;
 	sf::Font& font = context.fonts->get(Resources::Fonts::Main);

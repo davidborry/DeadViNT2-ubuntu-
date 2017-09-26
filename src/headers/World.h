@@ -22,14 +22,16 @@
 #include "entities/Fence.hpp"
 #include "game/ZombieManager.hpp"
 
+const float CELL_WIDTH = 100.f;
+
+
 
 class World : private sf::NonCopyable{
-
-public:
 
 
 public:
 	explicit World(sf::RenderTarget& outputTarget, FontHolder& fonts, SoundPlayer& sounds);
+	void init();
 	void update(sf::Time dt);
 	void draw();
 	void updateSounds();
@@ -87,14 +89,13 @@ private:
 
 	bool gameOver;
 	
-	CollisionCell mCollisionCell;
 	CollisionGrid mCollisionGrid;
-
 	PathFindingGrid mPathfindingGrid;
 
 	std::vector<Zombie*> mActiveEnemies;
 
 	HUD* mHUD;
+
 };
 
 
