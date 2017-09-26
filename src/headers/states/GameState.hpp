@@ -15,7 +15,6 @@ public:
 	virtual bool handleEvent(const sf::Event& event);
 
 private:
-	World mWorld;
 	Player& mPlayer;
 };
 

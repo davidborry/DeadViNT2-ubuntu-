@@ -3,7 +3,6 @@
 
 GameState::GameState(StateStack& stack, Context& context, int param) :
 State(stack, context,param),
-mWorld(*context.window,*context.fonts,*context.sounds),
 mPlayer(*context.player)
 {
 
@@ -13,7 +12,7 @@ mPlayer(*context.player)
 }
 
 void GameState::draw(){
-	getContext().world->draw();
+    getContext().world->draw();
 }
 
 bool GameState::update(sf::Time dt){
@@ -21,15 +20,15 @@ bool GameState::update(sf::Time dt){
 	/*if (mWorld.gameStatus())
 		mPlayer.endGame();*/
 
-    getContext().world->update(dt);
-	CommandQueue& commands = getContext().world->getCommandQueue();
+	getContext().world->update(dt);
+	CommandQueue& commands =  getContext().world->getCommandQueue();
 	mPlayer.handleRealTimeInputs(commands);
 
 	return true;
 }
 
 bool GameState::handleEvent(const sf::Event& event){
-	CommandQueue& commands =getContext().world->getCommandQueue();
+	CommandQueue& commands = getContext().world->getCommandQueue();
 	mPlayer.handleEvents(event, commands);
 
 

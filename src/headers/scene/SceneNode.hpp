@@ -21,6 +21,8 @@ public:
 	
 public:
 	explicit SceneNode(Category::Type category = Category::None);
+	SceneNode(SceneNode& obj);
+
 	void attachChild(Ptr child);
 	Ptr detachChild(const SceneNode& node);
 

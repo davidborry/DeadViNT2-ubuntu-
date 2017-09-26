@@ -31,6 +31,7 @@ class World : private sf::NonCopyable{
 
 public:
 	explicit World(sf::RenderTarget& outputTarget, FontHolder& fonts, SoundPlayer& sounds);
+    World(const World& obj);
 	void init();
 	void update(sf::Time dt);
 	void draw();
@@ -58,6 +59,10 @@ private:
 	void testZombies();
 
 	void updateActiveEnemies();
+
+    sf::RenderTarget& getTarget();
+    FontHolder& getFonts();
+    SoundPlayer& getSounds();
 
 private:
 	enum Layer{

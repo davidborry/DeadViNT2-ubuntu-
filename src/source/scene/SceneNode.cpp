@@ -9,6 +9,16 @@ mParent(nullptr)
 {
 }
 
+SceneNode::SceneNode(SceneNode &obj) :
+mDefaultCategory(obj.mDefaultCategory),
+mVisible(obj.mVisible),
+mParent(obj.mParent),
+mNodes(obj.mNodes) {
+
+	for(int i = 0; i < obj.mChildren.size(); i++)
+		attachChild(std::move(obj.mChildren[i]));
+}
+
 void SceneNode::attachChild(Ptr child){
 	//printf("node");
 	child->mParent = this;

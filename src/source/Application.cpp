@@ -42,7 +42,7 @@ mStatisticsNumFrames(0)
 	mStateStack = new StateStack(mContext);
 
 	registerStates();
-	mStateStack->pushState(States::Loading);
+	mStateStack->pushState(States::Menu);
 }
 
 void Application::run(){

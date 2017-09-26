@@ -10,6 +10,7 @@ LoadingState::LoadingState(StateStack& stack, Context& context, int param) : Sta
 
 	mContext->level = new std::string("map") ;
 
+	context.world = new World(*getContext().window, *getContext().fonts, *getContext().sounds);
 	getContext().world->init();
 
 	sf::RenderWindow& window = *getContext().window;

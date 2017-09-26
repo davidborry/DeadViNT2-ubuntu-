@@ -15,7 +15,50 @@ mPathfindingGrid(0,0),
 mHUD(nullptr)
 {
 
+	loadTextures();
    // cout << "WORLD" << endl;
+
+}
+
+World::World(const World& obj):
+mTarget(obj.mTarget),
+mFonts(obj.mFonts),
+mSounds(obj.mSounds),
+mWorldBounds(obj.mWorldBounds),
+mWorldView(obj.mWorldView),
+mScrollSpeed(-50.f),
+mPlayerHuman(obj.mPlayerHuman),
+mSpawnPosition(obj.mSpawnPosition),
+gameOver(obj.gameOver),
+mCollisionGrid(obj.mCollisionGrid),
+mPathfindingGrid(obj.mPathfindingGrid),
+mHUD(obj.mHUD),
+mSceneLayers(obj.mSceneLayers)
+{
+
+
+
+
+    mSceneTexture.create(mTarget.getSize().x, mTarget.getSize().y);
+
+    loadTextures();
+
+	for (std::size_t i = 0; i < LayerCount; ++i){
+
+		Category::Type category = (i == LowerAir) ? Category::SceneAirLayer : Category::None;
+
+		SceneNode::Ptr layer(new SceneNode(*mSceneLayers[i]));
+		mSceneLayers[i] = layer.get();
+		mSceneGraph.attachChild(std::move(layer));
+	}
+
+
+    std::unique_ptr<SoundNode> soundNode(new SoundNode(mSounds));
+    mSceneGraph.attachChild(std::move(soundNode));
+
+	mZombieManager = new ZombieManager(mPlayerHuman, mActiveEnemies, mTextures, mSceneLayers[UpperAir]);
+	mZombieManager->setPathFindingGrid(mPathfindingGrid);
+
 
 }
 
@@ -28,7 +71,6 @@ void World::init(){
 
 	mSceneTexture.create(mTarget.getSize().x, mTarget.getSize().y);
 
-	loadTextures();
 	buildScene();
 
 	//testCollisions();
@@ -345,4 +387,16 @@ void World::updateActiveEnemies(){
 
 	mActiveEnemies.erase(wreckfieldBegin1, mActiveEnemies.end());
 
+}
+
+sf::RenderTarget& World::getTarget() {
+    return mTarget;
+}
+
+FontHolder& World::getFonts() {
+    return mFonts;
+}
+
+SoundPlayer& World::getSounds() {
+    return mSounds;
 }
