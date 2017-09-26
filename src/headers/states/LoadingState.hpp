@@ -3,6 +3,7 @@
 
 #include "State.hpp"
 #include "../util/ParallelTask.hpp"
+#include "../rapidjson/rapidjson.h"
 
 class LoadingState : public State{
 public:
@@ -12,6 +13,7 @@ public:
 	virtual bool update(sf::Time dt);
 	virtual bool handleEvent(const sf::Event& event);
 
+    void loadLevel();
 	void setCompletion(float percent);
 
 private:

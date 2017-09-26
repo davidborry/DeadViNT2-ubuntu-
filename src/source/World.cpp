@@ -328,7 +328,7 @@ void World::testZombies(){
 	//mZombieManager->addSpawner(38,9);
     mZombieManager->addSpawner(33,9);
 
-	mZombieManager->addSpawner(32,17);
+	mZombieManager->addSpawner(34,16);
 
 
 }
