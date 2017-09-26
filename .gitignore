@@ -1,4 +1,8 @@
 .idea
 Debug
 Release
-cmake_modules
+CMakeCache.txt
+CMakeFiles/
+Makefile
+cmake-build-debug/
+cmake_install.cmake
