@@ -4,6 +4,7 @@
 #include "State.hpp"
 #include "../util/ParallelTask.hpp"
 #include "../rapidjson/rapidjson.h"
+#include "../game/MapReader.hpp"
 
 class LoadingState : public State{
 public:
@@ -22,5 +23,7 @@ private:
 	sf::RectangleShape mProgressBar;
 
 	ParallelTask mLoadingTask;
+
+	MapReader mMapReader;
 };
 #endif

@@ -41,7 +41,8 @@ mPlayerHuman(human),
 mTextures(textures),
 mLayer(layer),
 mPathfindingGrid(nullptr),
-mRound(1)
+mRound(1),
+mNewRound(false)
 {
 
     mPlayerGridPosition.x = mPlayerHuman->getWorldPosition().x / 100;
@@ -55,11 +56,10 @@ mRound(1)
 
 void ZombieManager::update(sf::Time dt) {
     //cout << "ENEMIES : " << mActiveEnemies.size() << endl;
-    static bool newRound = false;
 
 
-    if(mActiveEnemies.size() == 0 && !newRound){
-     //   cout << "ENEMIES : " << mActiveEnemies.size() << endl;
+    if(mActiveEnemies.size() == 0 && !mNewRound){
+        cout << "ENEMIES : " << mActiveEnemies.size() << endl;
 
         bool flag = false;
         FOREACH(auto spawner, mSpawners) {
@@ -70,13 +70,16 @@ void ZombieManager::update(sf::Time dt) {
                         }
                     }
 
-       if(flag )
-            mRound++;
-
-
+       if(flag ) {
+           mRound++;
+           mNewRound = true;
+       }
     }
 
-    newRound = !newRound;
+    else if(mNewRound && mActiveEnemies.size() > 0)
+        mNewRound = false;
+
+
 
    // cout << " ROUND " << mRound << endl;
     updatePlayerGridPosition();

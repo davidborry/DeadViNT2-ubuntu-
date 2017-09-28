@@ -79,25 +79,8 @@ void LoadingState::setCompletion(float percent){
 
 void LoadingState::loadLevel() {
 
-    const char* text = "{\"test\": \"this is a test\", \"array\": [[1,2],[3,4],[5,6]]}";
-    Document d;
-    d.Parse(text);
-
-    Value& value = d["test"];
-    Value& array = d["array"];
-
-    std::cout << value.GetString() << std::endl;
-
-
-    for (SizeType i = 0; i < array.Size(); i++) {// rapidjson uses SizeType instead of size_t.
-        auto point = array[i].GetArray();
-        for (SizeType j = 0; j < point.Size(); j++){
-            std::cout <<point[j].GetInt() <<" ";
-        }
-
-        std::cout << std::endl;
-
-    }
+	mMapReader.load("maps/map1.json");
+	cout << mMapReader.getContent();
 
     getContext().world->init();
 }

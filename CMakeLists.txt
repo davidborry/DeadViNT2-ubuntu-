@@ -13,7 +13,7 @@ file(GLOB_RECURSE REMOVE_CMAKE "cmake-build-debug/*")
 list(REMOVE_ITEM SRC_FILES ${REMOVE_CMAKE})
 
 
-add_executable(DeadViNT_2 ${SRC_FILES} ${HPP_FILES} ${H_FILES})
+add_executable(DeadViNT_2 ${SRC_FILES} ${HPP_FILES} ${H_FILES} src/headers/game/MapReader.hpp src/source/game/MapReader.cpp src/headers/game/MapParser.hpp src/source/game/MapParser.cpp)
 
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake_modules")
 find_package(SFML 2 COMPONENTS system window graphics audio REQUIRED)

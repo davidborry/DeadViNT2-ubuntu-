@@ -15,7 +15,9 @@ Entity(500),
 mActiveEnemies(zombies),
 mSprite(textures.get(Resources::Textures::Spawner), sf::IntRect(0,0,100,100)),
 mPlayerHuman(human),
-mPathFindingGrid(pathFindingGrid)
+mPathFindingGrid(pathFindingGrid),
+mElapsedTime(sf::Time::Zero),
+mSpawnFrequency(100.f)
 {
 
     mSpawnCommmand.category = Category::SceneAirLayer;
@@ -47,11 +49,15 @@ void Spawner::spawn(SceneNode& node, const TextureHolder& textures) {
 }
 
 void Spawner::updateCurrent(sf::Time dt, CommandQueue &commands) {
-    if(n > 0) {
+    if(n > 0 && mElapsedTime > sf::seconds(1/mSpawnFrequency)) {
         n--;
-       // cout << " N : " << n-- << endl;
+        cout << " N : " << n<< endl;
         commands.push(mSpawnCommmand);
+
+        mElapsedTime = sf::Time::Zero;
     }
+
+    mElapsedTime+=dt;
 }
 
 void Spawner::drawCurrent(sf::RenderTarget &target, sf::RenderStates states) const {

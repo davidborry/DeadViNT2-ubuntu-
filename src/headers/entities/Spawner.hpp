@@ -34,6 +34,9 @@ private:
     PathFindingGrid::Position mSpawnerGridPosition;
     Path mPath;
 
+    sf::Time mElapsedTime;
+    float mSpawnFrequency;
+
 
     int n = 0;
 

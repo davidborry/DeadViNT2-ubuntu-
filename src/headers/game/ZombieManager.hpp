@@ -33,6 +33,8 @@ private:
     PathFindingGrid* mPathfindingGrid;
     PathFindingGrid::Position mPlayerGridPosition;
 
+    bool mNewRound;
+
 };
 
 #endif //DEADVINT_2_ZOMBIEMANAGER_H
