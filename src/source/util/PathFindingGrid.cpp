@@ -93,7 +93,6 @@ mCols(cols)
 }
 
 void PathFindingGrid::setSolid(int x, int y, bool solid){
-	//printf("%i,%i\n", mLines, mCols);
 	mNodes[y][x].setSolid(solid);
 }
 

@@ -3,6 +3,13 @@
 #include "SFML/Graphics/Rect.hpp"
 #include <random>
 
+Point::Point(int x, int y) :
+		x(x),
+		y(y)
+{
+
+}
+
 namespace{
 	std::default_random_engine createRandomEngine(){
 		auto seed = static_cast<unsigned long>(std::time(nullptr));

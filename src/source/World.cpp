@@ -62,21 +62,35 @@ mSceneLayers(obj.mSceneLayers)
 
 }
 
-void World::init(){
-    mWorldBounds = sf::FloatRect(0.f, 0.f, 100*CELL_WIDTH, 100*CELL_WIDTH);
-    mSpawnPosition = sf::Vector2f(31*CELL_WIDTH, 7*CELL_WIDTH);
+void World::init(const string& map){
+    mMap = map;
 
-    mCollisionGrid = CollisionGrid(100*CELL_WIDTH,100*CELL_WIDTH);
-    mPathfindingGrid = PathFindingGrid(100,100);
-
-	mSceneTexture.create(mTarget.getSize().x, mTarget.getSize().y);
-
+    loadMap();
 	buildScene();
 
 	//testCollisions();
-	testSolids();
+	loadSolids();
 	testZombies();
 	mWorldView.setCenter(mSpawnPosition);
+}
+
+void World::loadMap() {
+    mMapParser = new MapParser(mMap);
+    mMapParser->getData();
+
+    int width = mMapParser->getWidth();
+    int height = mMapParser->getHeight();
+
+	Point spawnPoint = mMapParser->getSpawnPoint();
+
+    mWorldBounds = sf::FloatRect(0.f, 0.f, width*CELL_WIDTH, height*CELL_WIDTH);
+    mSpawnPosition = sf::Vector2f(spawnPoint.x*CELL_WIDTH, spawnPoint.y*CELL_WIDTH);
+
+    mCollisionGrid = CollisionGrid(width*CELL_WIDTH,height*CELL_WIDTH);
+    mPathfindingGrid = PathFindingGrid(width,height);
+
+    mSceneTexture.create(mTarget.getSize().x, mTarget.getSize().y);
+
 }
 
 void World::loadTextures(){
@@ -292,10 +306,15 @@ void World::drawGrid(int width, int height){
 
 }
 
-void World::testSolids(){
+void World::loadSolids(){
 	//addObstacle(6, 7);
 
-    for(int i = 0; i < 5; i++){
+	vector<Point> obstacles = mMapParser->getObstacles();
+
+	for(int i = 0;  i< obstacles.size(); i++)
+		addObstacle(obstacles[i].x,obstacles[i].y);
+
+  /*  for(int i = 0; i < 5; i++){
         addObstacle(i+35, 6);
         addObstacle(i+35, 8);
     }
@@ -317,7 +336,7 @@ void World::testSolids(){
 	}
 
 	addFence(31, 15);
-	addFence(35, 7);
+	addFence(35, 7);*/
 
 }
 
@@ -342,7 +361,7 @@ void World::addObstacle(int x, int y){
 		sprite->setSolid(true);
 		mSceneLayers[UpperAir]->attachChild(std::move(sprite));
 
-		mPathfindingGrid.setSolid(x, y, true);
+	mPathfindingGrid.setSolid(x, y, true);
 
 }
 

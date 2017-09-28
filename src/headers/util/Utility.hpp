@@ -12,6 +12,12 @@ namespace sf{
 
 class Animation;
 
+struct Point{
+	Point(int x,int y);
+	int x;
+	int y;
+};
+
 // Since std::to_string doesn't work on MinGW we have to implement
 // our own to support all platforms.
 template<typename T>

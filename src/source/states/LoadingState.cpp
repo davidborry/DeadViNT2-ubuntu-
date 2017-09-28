@@ -82,5 +82,5 @@ void LoadingState::loadLevel() {
 	mMapReader.load("maps/map1.json");
 	cout << mMapReader.getContent();
 
-    getContext().world->init();
+    getContext().world->init(mMapReader.getContent());
 }

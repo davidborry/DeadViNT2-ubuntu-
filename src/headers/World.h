@@ -21,6 +21,7 @@
 #include "util/PathFindingGrid.hpp"
 #include "entities/Fence.hpp"
 #include "game/ZombieManager.hpp"
+#include "game/MapParser.hpp"
 
 const float CELL_WIDTH = 100.f;
 
@@ -32,7 +33,7 @@ class World : private sf::NonCopyable{
 public:
 	explicit World(sf::RenderTarget& outputTarget, FontHolder& fonts, SoundPlayer& sounds);
     World(const World& obj);
-	void init();
+	void init(const std::string& map);
 	void update(sf::Time dt);
 	void draw();
 	void updateSounds();
@@ -46,6 +47,8 @@ public:
 	void printGrid();
 
 private:
+	void loadMap();
+
 	void loadTextures();
 	void buildScene();
 
@@ -55,7 +58,7 @@ private:
 	void drawGrid(int width, int height);
 
 	void testCollisions();
-	void testSolids();
+	void loadSolids();
 	void testZombies();
 
 	void updateActiveEnemies();
@@ -74,6 +77,9 @@ private:
 	};
 
 private:
+	MapParser* mMapParser;
+	std::string mMap;
+
 	sf::View mWorldView;
 	TextureHolder mTextures;
 	FontHolder& mFonts;
