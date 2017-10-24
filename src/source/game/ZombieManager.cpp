@@ -59,7 +59,7 @@ void ZombieManager::update(sf::Time dt) {
 
 
     if(mActiveEnemies.size() == 0 && !mNewRound){
-        cout << "ENEMIES : " << mActiveEnemies.size() << endl;
+        //cout << "ENEMIES : " << mActiveEnemies.size() << endl;
 
         bool flag = false;
         FOREACH(auto spawner, mSpawners) {

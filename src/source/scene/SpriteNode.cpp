@@ -10,7 +10,8 @@ SpriteNode::SpriteNode(const sf::Texture& texture, bool solid)
 }
 
 SpriteNode::SpriteNode(const sf::Texture& texture, const sf::IntRect& textureRect)
-	: mSprite(texture, textureRect)
+	: mSprite(texture, textureRect),
+	  mSolid(false)
 {
 }
 

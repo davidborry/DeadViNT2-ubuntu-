@@ -71,6 +71,8 @@ void World::init(const string& map){
 	//testCollisions();
 	loadSolids();
 	testZombies();
+
+    cout << "SPAWN : " << mSpawnPosition.x << " ; " << mSpawnPosition.y << endl;
 	mWorldView.setCenter(mSpawnPosition);
 }
 
@@ -172,8 +174,8 @@ void World::draw(){
 
 void World::update(sf::Time dt){
 	//printf("%i\n", mSceneGraph.getNodes().size());
-	
-	//forward commands to the scene graph
+
+    //forward commands to the scene graph
 	while (!mCommandQueue.isEmpty())
 		mSceneGraph.onCommand(mCommandQueue.pop(), dt);
 
@@ -229,8 +231,10 @@ void World::handleCollisions(){
                 fence->destroy();
         }
 
-		else if (matchesCategories(pair, Category::PlayerHuman, Category::Obstacle))
-			mPlayerHuman->adjustPositionObstacle(pair.second);
+		else if (matchesCategories(pair, Category::PlayerHuman, Category::Obstacle)) {
+            cout << "COLLISION " << pair.second->getCategory() << endl;
+            mPlayerHuman->adjustPositionObstacle(pair.second);
+        }
 
 		//else if (matchesCategories(pair, Category::Zombie, Category::Solid)){
         else if (matchesCategories(pair, Category::Zombie, Category::Obstacle)){

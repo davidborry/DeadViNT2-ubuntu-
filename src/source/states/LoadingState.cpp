@@ -79,7 +79,7 @@ void LoadingState::setCompletion(float percent){
 
 void LoadingState::loadLevel() {
 
-	mMapReader.load("maps/map1.json");
+	mMapReader.load("maps/maptest.json");
 	cout << mMapReader.getContent();
 
     getContext().world->init(mMapReader.getContent());
