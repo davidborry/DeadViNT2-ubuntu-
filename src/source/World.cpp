@@ -307,36 +307,15 @@ void World::drawGrid(int width, int height){
 }
 
 void World::loadSolids(){
-	//addObstacle(6, 7);
 
 	vector<Point> obstacles = mMapParser->getObstacles();
+    vector<Point> fences = mMapParser->getFences();
 
 	for(int i = 0;  i< obstacles.size(); i++)
 		addObstacle(obstacles[i].x,obstacles[i].y);
 
-  /*  for(int i = 0; i < 5; i++){
-        addObstacle(i+35, 6);
-        addObstacle(i+35, 8);
-    }
-
-
-    addObstacle(39,7);
-
-	for (int i = 0; i < 5; i++){
-			addObstacle(i+30, 5);
-
-			if (i!=1)
-			addObstacle(i+30, 15);
-	}
-
-	for (int i = 0; i <= 10; i++){
-		addObstacle(30, i+5);
-		if (i != 2)
-			addObstacle(35, i+5);
-	}
-
-	addFence(31, 15);
-	addFence(35, 7);*/
+    for(int i = 0; i < fences.size(); i++)
+        addFence(fences[i].x, fences[i].y);
 
 }
 
