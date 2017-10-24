@@ -64,6 +64,7 @@ void MapParser::getObjectsData(Value &v) {
 
     getObstaclesData(objects);
     getFencesData(objects);
+    getSpawnersData(objects);
 }
 
 void MapParser::getObstaclesData(Value &v) {
@@ -84,6 +85,16 @@ void MapParser::getFencesData(Value &v) {
         Point a(fences[i][0].GetInt(), fences[i][1].GetInt());
         mFences.push_back(a);
         cout << "FENCES: " <<a.x << ", " << a.y << endl;
+    }
+}
+
+void MapParser::getSpawnersData(Value &v){
+    Value& spawners = v["spawners"];
+
+    for(SizeType i = 0; i < spawners.Size(); i++){
+        Point a(spawners[i][0].GetInt(), spawners[i][1].GetInt());
+        mSpawners.push_back(a);
+        cout << "SPAWNERS: " <<a.x << ", " << a.y << endl;
     }
 }
 
@@ -109,4 +120,8 @@ vector<Point> MapParser::getObstacles() const {
 
 vector<Point> MapParser::getFences() const {
     return mFences;
+}
+
+vector<Point> MapParser::getSpawners() const {
+    return mSpawners;
 }

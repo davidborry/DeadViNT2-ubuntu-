@@ -22,6 +22,7 @@ public:
 
     std::vector<Point> getObstacles() const;
     std::vector<Point> getFences() const;
+    std::vector<Point> getSpawners() const;
 
 private:
     void getAuthorData(rapidjson::Value& v);
@@ -31,6 +32,7 @@ private:
 
     void getObstaclesData(rapidjson::Value& v);
     void getFencesData(rapidjson::Value& v);
+    void getSpawnersData(rapidjson::Value& v);
 
 private:
     std::string mContent;
@@ -38,8 +40,10 @@ private:
     std::string mAuthor;
     int mWidth, mHeight;
     Point mSpawnPoint;
+
     std::vector<Point> mObstacles;
     std::vector<Point> mFences;
+    std::vector<Point> mSpawners;
 };
 
 #endif //DEADVINT_2_MAPPARSER_HPP

@@ -320,14 +320,10 @@ void World::loadSolids(){
 }
 
 void World::testZombies(){
+    vector<Point> spawners = mMapParser->getSpawners();
 
-
-    mZombieManager->addSpawner(38,7);
-	//mZombieManager->addSpawner(38,9);
-    mZombieManager->addSpawner(33,9);
-
-	mZombieManager->addSpawner(34,16);
-
+    for(int i = 0; i < spawners.size(); i++)
+        mZombieManager->addSpawner(spawners[i].x, spawners[i].y);
 
 }
 
