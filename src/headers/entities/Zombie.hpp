@@ -29,6 +29,8 @@ public:
 
 	void updateTargetRadar();
 
+	void adjustToZombie(Zombie * z);
+
 private:
 	virtual void updateCurrent(sf::Time dt, CommandQueue& commands);
 	void drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const;

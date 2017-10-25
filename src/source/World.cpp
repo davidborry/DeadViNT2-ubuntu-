@@ -260,7 +260,7 @@ void World::handleCollisions(){
 			auto z1 = static_cast<Zombie*>(pair.first);
 			auto z2 = static_cast<Zombie*>(pair.second);
 
-			z1->adjustPositionObstacle(z2);
+			z1->adjustToZombie(z2);
 		}
 	}
 

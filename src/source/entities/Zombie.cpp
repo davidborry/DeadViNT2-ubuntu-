@@ -148,6 +148,49 @@ void Zombie::updateTargetRadar() {
 
 }
 
+void Zombie::adjustToZombie(Zombie *z) {
+	cout << "ADJUSTING ZOMBIE..." << endl;
+	sf::Vector2f playerTL = sf::Vector2f(getBoundingRect().left, getBoundingRect().top);
+	sf::Vector2f playerDR = playerTL + sf::Vector2f(getBoundingRect().width, getBoundingRect().height);
+
+	sf::Vector2f obstacleTL = sf::Vector2f(z->getBoundingRect().left, z->getBoundingRect().top);
+	sf::Vector2f obstacleDR = obstacleTL + sf::Vector2f(z->getBoundingRect().width, z->getBoundingRect().height);
+
+	//printf("%f,%f\n", playerTL.y, obstacleDL.y);
+	float playerLeft = playerTL.x;
+	float playerRight = playerDR.x;
+	float playerTop = playerTL.y;
+	float playerBottom = playerDR.y;
+
+	float obstacleLeft = obstacleTL.x;
+	float obstacleRight = obstacleDR.x;
+	float obstacleTop = obstacleTL.y;
+	float obstacleBottom = obstacleDR.y;
+
+	sf::FloatRect inter = unionRect(getBoundingRect(), z->getBoundingRect());
+	//printf("%f,%f\n", inter.width, inter.height);
+
+	if (inter.width > inter.height){
+		if (playerTop <= obstacleBottom && playerTop > obstacleTop)
+			setPosition(getPosition().x, obstacleBottom + getBoundingRect().height / 2.f);
+
+		else if (playerBottom > obstacleTop && playerBottom < obstacleBottom)
+			setPosition(getPosition().x, obstacleTop - getBoundingRect().height / 2.f);
+	}
+
+	else if (inter.width <= inter.height){
+		if (playerRight > obstacleLeft && playerRight < obstacleRight)
+			setPosition(obstacleLeft - getBoundingRect().width / 2.f, getPosition().y);
+
+		else if (playerLeft <= obstacleRight && playerLeft > obstacleLeft)
+			setPosition(obstacleRight + getBoundingRect().width / 2.f, getPosition().y);
+	}
+
+	//else
+		//setPosition(getPosition()+sf::Vector2f(1.f,1.f));
+
+}
+
 void Zombie::updateSteering(){
 	mVelocity = unitVector(mSteering)* 50.f;
 }
